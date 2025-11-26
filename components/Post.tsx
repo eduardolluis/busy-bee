@@ -1,9 +1,32 @@
+import {
+  ArrowUpTrayIcon,
+  ChartBarIcon,
+  ChatBubbleOvalLeftEllipsisIcon,
+  HeartIcon,
+} from "@heroicons/react/24/outline";
 import Image from "next/image";
 
 export default function Post() {
   return (
     <div>
       <PostHeader />
+
+      <div className="ml-16 p-3 flex space-x-14">
+        <div className="relative">
+          <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition" />
+          <span className="absolute text-xs top-1 -right-3">2</span>
+        </div>
+        <div className="relative">
+          <HeartIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition" />
+          <span className="absolute text-xs top-1 -right-3">2</span>
+        </div>
+        <div className="relative">
+          <ChartBarIcon className="w-[22px] h-[22px] cursor-not-allowed" />
+        </div>
+        <div className="relative">
+          <ArrowUpTrayIcon className="w-[22px] h-[22px] cursor-not-allowed" />
+        </div>
+      </div>
     </div>
   );
 }
