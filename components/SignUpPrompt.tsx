@@ -1,3 +1,5 @@
+import SignUpModal from "@/components/modals/SignUpModal";
+
 export default function SignUpPrompt() {
   return (
     <div className="fixed w-full h-[80px] bg-[#F4AF01] bottom-0 flex justify-center items-center md:space-x-5 lg:justify-between lg:px-20 xl:px-40 2xl:px-80 ">
@@ -9,9 +11,7 @@ export default function SignUpPrompt() {
         <button className="w-full h-[48px] md:w-[88px] md:h-[40px] text-[15px] md:text-sm border-2 border-gray-100 rounded-full text-white font-bold hover:bg-white/25 transition">
           Login
         </button>
-        <button className="w-full h-[48px] md:w-[88px] md:h-[40px] text-[15px] md:text-sm font-bold bg-white rounded-full">
-          Sign Up
-        </button>
+   <SignUpModal />
       </div>
     </div>
   );

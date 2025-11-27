@@ -1,4 +1,4 @@
-import PostFeed from "@/components/PostFeed";
+import PostFeed from "@/components/posts/PostFeed";
 import Sidebar from "@/components/Sidebar";
 import SignUpPrompt from "@/components/SignUpPrompt";
 import Widgets from "@/components/Widgets";
