@@ -11,3 +11,48 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+
+.modal-backdrop {
+  backdrop-filter: blur(10px);
+  background-color: rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.modal-backdrop:focus-visible {
+  outline: none;
+}
+@keyframes modalOpen {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+
+@keyframes modalClose {
+  0% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+}
+
+.animate-modal-open {
+  animation: modalOpen 0.25s ease-out forwards;
+}
+
+.animate-modal-close {
+  animation: modalClose 0.2s ease-in forwards;
+}
+
+.modal-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

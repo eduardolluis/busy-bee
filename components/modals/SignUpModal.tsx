@@ -12,7 +12,7 @@ import { auth } from "@/firebase";
 
 import { Modal } from "@mui/material";
 import { useEffect, useState } from "react";
-import { signInUser } from "@/redux/slices/userSlice";
+import { setUser } from "@/redux/slices/userSlice";
 
 export default function SignUpModal() {
   const [email, setEmail] = useState("");
@@ -49,19 +49,22 @@ export default function SignUpModal() {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       if (!currentUser) return;
 
-      // handle redux actions
-
       dispatch(
-        signInUser({
-          name: "",
-          username: currentUser.email!.split("@")[0],
-          email: currentUser.email,
+        setUser({
+          name:
+            currentUser.displayName ||
+            currentUser.email?.split("@")[0] ||
+            "User",
+          username: currentUser.email?.split("@")[0] || "user",
+          email: currentUser.email ?? "",
           uid: currentUser.uid,
+          photo: currentUser.photoURL ?? "/profile-pic.png",
         })
       );
     });
+
     return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -75,7 +78,7 @@ export default function SignUpModal() {
       <Modal
         open={isOpen}
         onClose={() => dispatch(closeSignUpModal())}
-        className="flex justify-center items-center"
+        className="flex justify-center items-center modal-backdrop"
       >
         <div className="w-full h-full sm:w-[600px] sm:h-fit bg-white sm:rounded-xl">
           <XMarkIcon
@@ -133,11 +136,6 @@ export default function SignUpModal() {
             >
               <img src="/google-logo.png" alt="Google" className="w-5 h-5" />
               Sign Up with Google
-            </button>
-
-            {/* Guest */}
-            <button className="bg-[#F4AF01] text-white h-[48px] rounded-full shadow-md w-full font-semibold hover:bg-[#d69800] transition">
-              Log In as Guest
             </button>
           </div>
         </div>

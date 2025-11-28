@@ -1,31 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-const initialState = {
-  name: "",
-  username: "",
-  email: "",
-  uid: "",
+type UserState = {
+  name: string | null;
+  username: string | null;
+  email: string | null;
+  uid: string | null;
+  photo: string | null;
+};
+
+const initialState: UserState = {
+  name: null,
+  username: null,
+  email: null,
+  uid: null,
+  photo: null,
 };
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    signInUser: (state, actions) => {
-      state.name = actions.payload;
-      state.username = actions.payload;
-      state.email = actions.payload;
-      state.uid = actions.payload;
+    setUser: (state, action: PayloadAction<UserState>) => {
+      state.name = action.payload.name;
+      state.username = action.payload.username;
+      state.email = action.payload.email;
+      state.uid = action.payload.uid;
+      state.photo = action.payload.photo;
     },
-    signOutUser: (state) => {
-      state.name = "";
-      state.username = "";
-      state.email = "";
-      state.uid = "";
+    clearUser: (state) => {
+      state.name = null;
+      state.username = null;
+      state.email = null;
+      state.uid = null;
+      state.photo = null;
     },
   },
 });
 
-export const { signInUser, signOutUser } = userSlice.actions;
-
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;
