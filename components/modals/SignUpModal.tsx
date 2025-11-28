@@ -1,13 +1,18 @@
 "use client";
 
 import { closeSignUpModal, openSignUpModal } from "@/redux/slices/ModalSlices";
-import { AppDispatch, RootState } from "@/redux/store";
 import { EyeIcon, EyeSlashIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Modal } from "@mui/material";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
-import { signUpWithEmail, signUpWithGoogle } from "../../authService";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/redux/store";
+
+import { signUpWithEmail, signUpWithGoogle } from "@/authService";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "@/firebase";
+
+import { Modal } from "@mui/material";
+import { useEffect, useState } from "react";
+import { signInUser } from "@/redux/slices/userSlice";
 
 export default function SignUpModal() {
   const [email, setEmail] = useState("");
@@ -39,6 +44,24 @@ export default function SignUpModal() {
       console.log("Error:", error);
     }
   }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      if (!currentUser) return;
+
+      // handle redux actions
+
+      dispatch(
+        signInUser({
+          name: "",
+          username: currentUser.email!.split("@")[0],
+          email: currentUser.email,
+          uid: currentUser.uid,
+        })
+      );
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <>
