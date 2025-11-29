@@ -4,12 +4,26 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
+import { DocumentData, Timestamp } from "firebase/firestore";
 import Image from "next/image";
+import moment from "moment";
+import "moment/locale/es";
 
-export default function Post() {
+moment.locale("es");
+
+interface PostProps {
+  data: DocumentData;
+}
+
+export default function Post({ data }: PostProps) {
   return (
     <div className="border-b border-gray-100">
-      <PostHeader />
+      <PostHeader
+        username={data.username}
+        name={data.name}
+        timeStamp={data.timestamp}
+        text={data.text}
+      />
 
       <div className="ml-16 p-3 flex space-x-14">
         <div className="relative">
@@ -31,7 +45,23 @@ export default function Post() {
   );
 }
 
-export function PostHeader() {
+interface PostHeaderProps {
+  username: string;
+  name: string;
+  timeStamp: Timestamp;
+  text: string;
+}
+
+export function PostHeader({
+  username,
+  name,
+  timeStamp,
+  text,
+}: PostHeaderProps) {
+  const formattedTime = timeStamp
+    ? moment(timeStamp.toDate()).fromNow()
+    : "Hace un momento";
+
   return (
     <div className="flex p-3 space-x-5">
       <Image
@@ -39,21 +69,19 @@ export function PostHeader() {
         width={44}
         height={44}
         alt="Profile Picture"
-        className="w-11 h-11"
+        className="w-11 h-11 rounded-full"
       />
       <div className="text-[15px] flex flex-col space-y-1.5">
-        <div className="flex space-x-1.5  text-[#707E89]">
-          <span className="font-bold text-[#0F1419] whitespace-nowrap overflow-hidden text-ellipsis inline-block max-w-[60x] min-[400px]:max-w-[100px] min-[500px]:max-w-[140px] sm:max-w-[160px]">
-            Guestasdasdasdsad
+        <div className="flex space-x-1.5 text-[#707E89]">
+          <span className="font-bold text-[#0F1419] truncate max-w-[140px]">
+            {name}
           </span>
-          <span className="whitespace-nowrap overflow-hidden text-ellipsis inline-block max-w-[60x] min-[400px]:max-w-[100px] min-[500px]:max-w-[140px] sm:max-w-[160px]">
-            @guest0000032
-          </span>
+          <span className="truncate max-w-[140px]">@{username}</span>
           <span>·</span>
-          <span>a day ago</span>
+          <span>{formattedTime}</span>
         </div>
 
-        <span> asdasdsadasdads</span>
+        <span>{text}</span>
       </div>
     </div>
   );
