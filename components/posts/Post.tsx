@@ -23,6 +23,7 @@ export default function Post({ data }: PostProps) {
         name={data.name}
         timeStamp={data.timestamp}
         text={data.text}
+        photo={data.photo} 
       />
 
       <div className="ml-16 p-3 flex space-x-14">
@@ -50,6 +51,7 @@ interface PostHeaderProps {
   name: string;
   timeStamp: Timestamp;
   text: string;
+  photo: string; 
 }
 
 export function PostHeader({
@@ -57,6 +59,7 @@ export function PostHeader({
   name,
   timeStamp,
   text,
+  photo,
 }: PostHeaderProps) {
   const formattedTime = timeStamp
     ? moment(timeStamp.toDate()).fromNow()
@@ -65,11 +68,11 @@ export function PostHeader({
   return (
     <div className="flex p-3 space-x-5">
       <Image
-        src="/profile-pic.png"
+        src={photo ?? "/profile-pic.png"} 
         width={44}
         height={44}
         alt="Profile Picture"
-        className="w-11 h-11 rounded-full"
+        className="w-11 h-11 rounded-full object-cover"
       />
       <div className="text-[15px] flex flex-col space-y-1.5">
         <div className="flex space-x-1.5 text-[#707E89]">

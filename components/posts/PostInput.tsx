@@ -25,6 +25,7 @@ export default function PostInput() {
       timestamp: serverTimestamp(),
       likes: [],
       comments: [],
+      photo: user.photo ?? "/profile-pic.png",
     });
     setText("");
   }
