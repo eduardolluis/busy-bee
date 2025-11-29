@@ -81,7 +81,7 @@ export default function LogInModal() {
       <Modal
         open={isOpen}
         onClose={() => dispatch(closeLogInModal())}
-        className="flex justify-center items-center modal-backdrop"
+        className="flex justify-center items-center modal-backdrop outline-none"
       >
         <div
           className={`modal-content ${

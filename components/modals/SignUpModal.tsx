@@ -78,7 +78,7 @@ export default function SignUpModal() {
       <Modal
         open={isOpen}
         onClose={() => dispatch(closeSignUpModal())}
-        className="flex justify-center items-center modal-backdrop"
+        className="flex justify-center items-center modal-backdrop outline-none"
       >
         <div className="w-full h-full sm:w-[600px] sm:h-fit bg-white sm:rounded-xl">
           <XMarkIcon

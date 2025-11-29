@@ -8,6 +8,8 @@ import { DocumentData, Timestamp } from "firebase/firestore";
 import Image from "next/image";
 import moment from "moment";
 import "moment/locale/es";
+import { openCommentModal } from "@/redux/slices/ModalSlices";
+import { useDispatch } from "react-redux";
 
 moment.locale("es");
 
@@ -16,6 +18,7 @@ interface PostProps {
 }
 
 export default function Post({ data }: PostProps) {
+  const dispatch = useDispatch();
   return (
     <div className="border-b border-gray-100">
       <PostHeader
@@ -23,12 +26,15 @@ export default function Post({ data }: PostProps) {
         name={data.name}
         timeStamp={data.timestamp}
         text={data.text}
-        photo={data.photo} 
+        photo={data.photo}
       />
 
       <div className="ml-16 p-3 flex space-x-14">
         <div className="relative">
-          <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition" />
+          <ChatBubbleOvalLeftEllipsisIcon
+            className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition"
+            onClick={() => dispatch(openCommentModal())}
+          />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
         <div className="relative">
@@ -49,9 +55,10 @@ export default function Post({ data }: PostProps) {
 interface PostHeaderProps {
   username: string;
   name: string;
-  timeStamp: Timestamp;
+  timeStamp?: Timestamp;
   text: string;
-  photo: string; 
+  photo?: string;
+  replyTo?: string;
 }
 
 export function PostHeader({
@@ -60,6 +67,7 @@ export function PostHeader({
   timeStamp,
   text,
   photo,
+  replyTo,
 }: PostHeaderProps) {
   const formattedTime = timeStamp
     ? moment(timeStamp.toDate()).fromNow()
@@ -68,11 +76,11 @@ export function PostHeader({
   return (
     <div className="flex p-3 space-x-5">
       <Image
-        src={photo ?? "/profile-pic.png"} 
+        src={photo ?? "/profile-pic.png"}
         width={44}
         height={44}
         alt="Profile Picture"
-        className="w-11 h-11 rounded-full object-cover"
+        className="w-11 h-11 rounded-full object-cover z-10"
       />
       <div className="text-[15px] flex flex-col space-y-1.5">
         <div className="flex space-x-1.5 text-[#707E89]">
@@ -85,6 +93,12 @@ export function PostHeader({
         </div>
 
         <span>{text}</span>
+
+        {replyTo && (
+          <span className="text-[15px] text-[#707E89]">
+            Replying to <span className="text-[#F4AF01]">@{replyTo}</span>
+          </span>
+        )}
       </div>
     </div>
   );
