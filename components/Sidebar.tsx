@@ -73,7 +73,7 @@ export default function Sidebar() {
 
         {/* Profile Section */}
         <div
-          className={`absolute bottom-6 flex items-center space-x-2 xl:p-3 xl:pe-6
+          className={`absolute bottom-6 justify-start w-fit flex items-center space-x-2 xl:p-3 xl:pe-6
             hover:bg-gray-500/10 rounded-full transition cursor-pointer select-none
             ${!isLoggedIn && "opacity-60"} `}
           onClick={() => {
@@ -88,9 +88,13 @@ export default function Sidebar() {
             alt="Profile Pic"
             className="w-9 h-9 rounded-full"
           />
-          <div className="hidden xl:flex flex-col text-sm">
-            <span className="font-bold">{username || "Guest"}</span>
-            <span className="text-gray-500">@{username || "guest"}</span>
+          <div className="hidden xl:flex flex-col text-sm max-w-40">
+            <span className="whitespace-nowrap  text-ellipsis overflow-hidden font-bold">
+              {username || "Guest"}
+            </span>
+            <span className="whitespace-nowrap text-ellipsis overflow-hidden  text-gray-500">
+              @{username || "guest"}
+            </span>
           </div>
         </div>
 
@@ -135,3 +139,4 @@ function SidebarLink({ text, Icon }: SidebarLinkProps) {
     </li>
   );
 }
+  

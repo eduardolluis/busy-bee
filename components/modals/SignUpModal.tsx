@@ -93,11 +93,13 @@ export default function SignUpModal() {
               <input
                 placeholder="Name"
                 type="text"
+                required
                 className="w-full h-[54px] border border-gray-200 outline-none ps-3 rounded-[4px] focus:border-[#F4AF01] transition"
               />
               <input
                 placeholder="Email"
                 type="email"
+                required
                 className="w-full h-[54px] border border-gray-200 outline-none ps-3 rounded-[4px] focus:border-[#F4AF01] transition"
                 onChange={(e) => setEmail(e.target.value)}
                 value={email}
