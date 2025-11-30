@@ -22,10 +22,8 @@ export default function PostFeed() {
     const q = query(collection(db, "posts"), orderBy("timestamp", "desc"));
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
-
       const snapshotDocs = snapshot.docs;
       setPosts(snapshotDocs);
-
     });
     return unsubscribe;
   }, []);
@@ -35,7 +33,9 @@ export default function PostFeed() {
         Home
       </div>
       <PostInput />
-      {posts.map(post => <Post key={post.id} data={post.data()}/>)}
+      {posts.map((post) => (
+        <Post key={post.id} data={post.data()} id={post.id} />
+      ))}
     </div>
   );
 }

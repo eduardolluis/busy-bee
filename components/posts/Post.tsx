@@ -8,16 +8,20 @@ import { DocumentData, Timestamp } from "firebase/firestore";
 import Image from "next/image";
 import moment from "moment";
 import "moment/locale/es";
-import { openCommentModal } from "@/redux/slices/ModalSlices";
+import {
+  openCommentModal,
+  setCommentDetails,
+} from "@/redux/slices/ModalSlices";
 import { useDispatch } from "react-redux";
 
 moment.locale("es");
 
 interface PostProps {
   data: DocumentData;
+  id: string;
 }
 
-export default function Post({ data }: PostProps) {
+export default function Post({ data, id }: PostProps) {
   const dispatch = useDispatch();
   return (
     <div className="border-b border-gray-100">
@@ -33,7 +37,17 @@ export default function Post({ data }: PostProps) {
         <div className="relative">
           <ChatBubbleOvalLeftEllipsisIcon
             className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition"
-            onClick={() => dispatch(openCommentModal())}
+            onClick={() => {
+              dispatch(
+                setCommentDetails({
+                  name: data.name,
+                  username: data.username,
+                  id: id,
+                  text: data.text,
+                })
+              );
+              dispatch(openCommentModal());
+            }}
           />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
