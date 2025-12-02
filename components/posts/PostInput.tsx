@@ -55,6 +55,7 @@ export default function PostInput({ insideModal }: PostInputProps) {
         name: user.name,
         username: user.username,
         text: text,
+        photo: user.photo ?? "/profile-pic.png",
       }),
     });
     setText("");

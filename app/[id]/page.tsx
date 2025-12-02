@@ -1,5 +1,4 @@
 import { PostHeader } from "@/components/posts/Post";
-import PostFeed from "@/components/posts/PostFeed";
 import Sidebar from "@/components/Sidebar";
 import SignUpPrompt from "@/components/SignUpPrompt";
 import Widgets from "@/components/Widgets";
@@ -13,8 +12,37 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 import Link from "next/link";
+import { db } from "@/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { notFound } from "next/navigation";
 
-export default function Page() {
+interface Comment {
+  name: string;
+  text: string;
+  username: string;
+  photo?: string;
+}
+
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function Page({ params }: PageProps) {
+  // Obtener el ID del post de los parámetros
+  const { id } = await params;
+
+  // Obtener el documento del post desde Firebase
+  const postRef = doc(db, "posts", id);
+  const postSnap = await getDoc(postRef);
+
+  // Si el post no existe, mostrar página 404
+  if (!postSnap.exists()) {
+    notFound();
+  }
+
+  // Obtener los datos del post
+  const post = postSnap.data();
+
   return (
     <>
       <div
@@ -34,27 +62,27 @@ export default function Page() {
             <div className="flex justify-between items-center mb-1.5">
               <div className="flex space-x-3">
                 <Image
-                  src={"/profile-pic.png"}
+                  src={post?.photo || "/profile-pic.png"}
                   width={44}
                   height={44}
-                  alt="PRofile Picture"
-                  className="w-11 h-11"
+                  alt="Profile Picture"
+                  className="w-11 h-11 rounded-full object-cover"
                 />
                 <div className="flex flex-col">
                   <span className="font-bold text-[15px] truncate max-w-[140px]">
-                    dddddddddddddddddddddddddddddddddddddd
+                    {post?.name}
                   </span>
                   <span className="text-[#707E89] text-[15px] truncate max-w-[140px] ">
-                    ddddddddddddddddddddddddddddddddddd
+                    @{post?.username}
                   </span>
                 </div>
               </div>
               <EllipsisHorizontalIcon className="w-5 h-5" />
             </div>
-            <span className="text-[15px]">Post Text</span>
-
+            <span className="text-[15px]">{post?.text}</span>
             <div className="border-b border-gray-100 p-3 text-[15px]">
-              <span className="font-bold">0</span> Likes
+              <span className="font-bold">{post?.likes?.length || 0}</span>{" "}
+              Likes
             </div>
             <div className="border-b border-gray-100 p-3 text-[15px] flex justify-evenly">
               <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] text-[#707E89] cursor-not-allowed" />
@@ -63,7 +91,17 @@ export default function Page() {
               <ArrowUpTrayIcon className="w-[22px] h-[22px] text-[#707E89] cursor-not-allowed" />
             </div>
           </div>
-          <Comment />
+          {post?.comments &&
+            post.comments.length > 0 &&
+            post.comments.map((comment: Comment, index: number) => (
+              <Comment
+                key={index}
+                name={comment.name}
+                username={comment.username}
+                text={comment.text}
+                photo={comment.photo}
+              />
+            ))}
         </div>
         <Widgets />
       </div>
@@ -72,11 +110,17 @@ export default function Page() {
   );
 }
 
-function Comment() {
+interface CommentProps {
+  name: string;
+  username: string;
+  text: string;
+  photo?: string;
+}
+
+function Comment({ name, username, text, photo }: CommentProps) {
   return (
     <div className="border-b border-gray-100">
-      <PostHeader name="eduard123" username="123123  " text="username123123" />
-
+      <PostHeader name={name} username={username} text={text} photo={photo} />
       <div className="flex space-x-14 p-3 ms-16">
         <ChatBubbleOvalLeftEllipsisIcon className="w-[22px] h-[22px] text-[#707E89] cursor-not-allowed" />
         <HeartIcon className="w-[22px] h-[22px] text-[#707E89] cursor-not-allowed" />

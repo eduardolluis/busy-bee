@@ -1,10 +1,12 @@
+"use client";
+
 import {
   ArrowUpTrayIcon,
   ChartBarIcon,
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
-import { DocumentData, Timestamp } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 import Image from "next/image";
 import moment from "moment";
 import "moment/locale/es";
@@ -13,25 +15,29 @@ import {
   setCommentDetails,
 } from "@/redux/slices/ModalSlices";
 import { useDispatch } from "react-redux";
+import Link from "next/link";
 
 moment.locale("es");
 
 interface PostProps {
-  data: DocumentData;
+  data: any;
   id: string;
 }
 
 export default function Post({ data, id }: PostProps) {
   const dispatch = useDispatch();
+
   return (
     <div className="border-b border-gray-100">
-      <PostHeader
-        username={data.username}
-        name={data.name}
-        timeStamp={data.timestamp}
-        text={data.text}
-        photo={data.photo}
-      />
+      <Link href={"/" + id}>
+        <PostHeader
+          username={data.username}
+          name={data.name}
+          timeStamp={data.timestamp}
+          text={data.text}
+          photo={data.photo}
+        />
+      </Link>
 
       <div className="ml-16 p-3 flex space-x-14">
         <div className="relative">
@@ -42,7 +48,7 @@ export default function Post({ data, id }: PostProps) {
                 setCommentDetails({
                   name: data.name,
                   username: data.username,
-                  id: id,
+                  id,
                   text: data.text,
                 })
               );
@@ -51,13 +57,16 @@ export default function Post({ data, id }: PostProps) {
           />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
+
         <div className="relative">
           <HeartIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition" />
           <span className="absolute text-xs top-1 -right-3">2</span>
         </div>
+
         <div className="relative">
           <ChartBarIcon className="w-[22px] h-[22px] cursor-not-allowed" />
         </div>
+
         <div className="relative">
           <ArrowUpTrayIcon className="w-[22px] h-[22px] cursor-not-allowed" />
         </div>
