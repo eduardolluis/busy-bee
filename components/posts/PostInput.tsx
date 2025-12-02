@@ -87,7 +87,7 @@ export default function PostInput({ insideModal }: PostInputProps) {
             <MapPinIcon className="w-[22px] h-[22px] text-[#F4AF01]" />
           </div>
           <button
-            className="bg-[#F4AF01] text-white w-[80px] h-[36px] rounded-full text-sm cursor-pointer disabled:bg-[#F4AF01]/65"
+            className="bg-[#F4AF01] text-white w-20 h-9 rounded-full text-sm cursor-pointer disabled:bg-[#F4AF01]/65"
             onClick={() => (insideModal ? sendComment() : sendPost())}
             disabled={!text}
           >

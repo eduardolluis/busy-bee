@@ -5,8 +5,8 @@ import Image from "next/image";
 export default function Widgets() {
   return (
     <div className="p-3 hidden  lg:flex flex-col space-y-4 w-[400px] ps-10 ">
-      <div className=" bg-[#EFF3F4] text-[#89959D] h-[44px] flex items-center space-x-3 rounded-full pl-5">
-        <MagnifyingGlassIcon className="w-[20px] h-[20px]" />
+      <div className=" bg-[#EFF3F4] text-[#89959D] h-11 flex items-center space-x-3 rounded-full pl-5">
+        <MagnifyingGlassIcon className="w-5 h-5" />
         <input
           type="text"
           placeholder="Search Busy Bee"
@@ -18,7 +18,7 @@ export default function Widgets() {
         <div className="flex flex-col py-3">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in Dominican Republic</span>
-            <EllipsisHorizontalIcon className="w-[20px] " />
+            <EllipsisHorizontalIcon className="w-5 h-5" />
           </div>
 
           <span className="font-bold text-sm">#ReactJS</span>
@@ -27,7 +27,7 @@ export default function Widgets() {
         <div className="flex flex-col py-3">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in Australia</span>
-            <EllipsisHorizontalIcon className="w-[20px] " />
+            <EllipsisHorizontalIcon className="w-5 h-5" />
           </div>
 
           <span className="font-bold text-[15px]">#ReactJS</span>
@@ -36,7 +36,7 @@ export default function Widgets() {
         <div className="flex flex-col py-3">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in Australia</span>
-            <EllipsisHorizontalIcon className="w-[20px] " />
+            <EllipsisHorizontalIcon className="w-5 h-5" />
           </div>
 
           <span className="font-bold text-sm">#ReactJS</span>
@@ -45,7 +45,7 @@ export default function Widgets() {
         <div className="flex flex-col py-3">
           <div className="flex justify-between text-[#536471] text-[13px]">
             <span>Trending in Australia</span>
-            <EllipsisHorizontalIcon className="w-[20px] " />
+            <EllipsisHorizontalIcon className="w-5 h-5 " />
           </div>
 
           <span className="font-bold text-sm">#ReactJS</span>
@@ -70,7 +70,7 @@ export default function Widgets() {
               <span>@eduardolluis</span>
             </div>
           </div>
-          <button className="bg-[#0F1419] text-white w-[72px]   h-[40px] rounded-full text-sm">
+          <button className="bg-[#0F1419] text-white w-[72px]   h-10 rounded-full text-sm">
             Follow
           </button>
         </div>
@@ -88,7 +88,7 @@ export default function Widgets() {
               <span>@eduardolluis</span>
             </div>
           </div>
-          <button className="bg-[#0F1419] text-white w-[72px]   h-[40px] rounded-full text-sm">
+          <button className="bg-[#0F1419] text-white w-[72px]   h-10 rounded-full text-sm">
             Follow
           </button>
         </div>
