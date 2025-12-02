@@ -28,19 +28,15 @@ interface PageProps {
 }
 
 export default async function Page({ params }: PageProps) {
-  // Obtener el ID del post de los parámetros
   const { id } = await params;
 
-  // Obtener el documento del post desde Firebase
   const postRef = doc(db, "posts", id);
   const postSnap = await getDoc(postRef);
 
-  // Si el post no existe, mostrar página 404
   if (!postSnap.exists()) {
     notFound();
   }
 
-  // Obtener los datos del post
   const post = postSnap.data();
 
   return (

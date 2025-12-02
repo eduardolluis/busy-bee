@@ -6,16 +6,26 @@ import {
   ChatBubbleOvalLeftEllipsisIcon,
   HeartIcon,
 } from "@heroicons/react/24/outline";
-import { Timestamp } from "firebase/firestore";
+import { HeartIcon as SolidHeartIcon } from "@heroicons/react/24/solid";
+import {
+  arrayRemove,
+  arrayUnion,
+  doc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
 import Image from "next/image";
 import moment from "moment";
 import "moment/locale/es";
 import {
   openCommentModal,
+  openLogInModal,
   setCommentDetails,
 } from "@/redux/slices/ModalSlices";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
+import { RootState } from "@/redux/store";
+import { db } from "@/firebase";
 
 moment.locale("es");
 
@@ -26,6 +36,25 @@ interface PostProps {
 
 export default function Post({ data, id }: PostProps) {
   const dispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user);
+
+  async function likePost() {
+    if (!user.username) {
+      dispatch(openLogInModal());
+      return;
+    }
+    const postRef = doc(db, "posts", id);
+
+    if (data.likes.includes(user.uid)) {
+      await updateDoc(postRef, {
+        likes: arrayRemove(user.uid),
+      });
+    } else {
+      await updateDoc(postRef, {
+        likes: arrayUnion(user.uid),
+      });
+    }
+  }
 
   return (
     <div className="border-b border-gray-100">
@@ -44,6 +73,11 @@ export default function Post({ data, id }: PostProps) {
           <ChatBubbleOvalLeftEllipsisIcon
             className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition"
             onClick={() => {
+              if (!user.username) {
+                dispatch(openLogInModal());
+                return;
+              }
+
               dispatch(
                 setCommentDetails({
                   name: data.name,
@@ -55,12 +89,29 @@ export default function Post({ data, id }: PostProps) {
               dispatch(openCommentModal());
             }}
           />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.comments.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.comments.length}
+            </span>
+          )}
         </div>
-
         <div className="relative">
-          <HeartIcon className="w-[22px] h-[22px] cursor-pointer hover:text-[#F4AF01] transition" />
-          <span className="absolute text-xs top-1 -right-3">2</span>
+          {data.likes.includes(user.uid) ? (
+            <SolidHeartIcon
+              className="w-[22px] h-[22px] cursor-pointer text-pink-500 transition"
+              onClick={() => likePost()}
+            />
+          ) : (
+            <HeartIcon
+              className="w-[22px] h-[22px] cursor-pointer hover:text-pink-500 transition"
+              onClick={() => likePost()}
+            />
+          )}
+          {data.likes.length > 0 && (
+            <span className="absolute text-xs top-1 -right-3">
+              {data.likes.length}
+            </span>
+          )}
         </div>
 
         <div className="relative">

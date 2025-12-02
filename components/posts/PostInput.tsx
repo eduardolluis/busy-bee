@@ -65,7 +65,7 @@ export default function PostInput({ insideModal }: PostInputProps) {
   return (
     <div className="flex space-x-5 p-3 border-b border-gray-100">
       <Image
-        src={insideModal ? (user.photo ?? "profile-pic.png") : "/busy-bee.jpg"}
+        src={insideModal ? (user.photo ?? "/profile-pic.png") : "/busy-bee.jpg"}
         width={44}
         height={44}
         alt={insideModal ? "profile picture" : "logo"}
