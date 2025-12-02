@@ -27,7 +27,7 @@ import Link from "next/link";
 import { RootState } from "@/redux/store";
 import { db } from "@/firebase";
 
-moment.locale("es");
+moment.locale("en");
 
 interface PostProps {
   data: any;
