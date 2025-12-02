@@ -7,8 +7,8 @@ const initialState = {
   commentPostDetails: {
     name: "",
     username: "",
-    id: "",
-    text: "",
+    id: "",                               
+    text: "",                                                                 
   },
 };
 

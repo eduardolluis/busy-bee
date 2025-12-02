@@ -31,7 +31,7 @@ export default function CommentModal() {
               name={commentDetails.name}
               username={commentDetails.username}
               text={commentDetails.text}
-              replyTo="eduardo"
+              replyTo={commentDetails.username}
             />
             <div className="mt-4">
               <PostInput insideModal={true} />
